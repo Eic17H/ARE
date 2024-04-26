@@ -64,12 +64,12 @@ BIPUSH 5
 INVOKEVIRTUAL mod
 ISTORE y5
 
-// fun1 + fun2 + y%5
+// fun1 + fun2 - y%5
 ILOAD fun1fun2y3
 ILOAD fun2y1z
 ILOAD y5
 IADD
-IADD
+ISUB
 ISTORE ris
 
 // print(ris)
@@ -131,7 +131,7 @@ condizionewhile:
 ILOAD a
 ILOAD b
 ISUB
-ILOAD 3
+BIPUSH 3
 ISUB
 IFLT loop
 GOTO dopowhile
