@@ -123,7 +123,7 @@ BIPUSH 4
 IADD
 IADD
 ISUB
-RETURN
+IRETURN
 .end-method
 
 .method fun2(a, b)
@@ -177,7 +177,7 @@ ILOAD b
 ILOAD a
 IADD
 IADD
-RETURN
+IRETURN
 .end-method
 
 
