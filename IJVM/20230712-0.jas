@@ -80,6 +80,53 @@ HALT
 
 .end-main
 
+.method fun1(a, b)
+// while(3-b<0)
+condizionewhile:
+BIPUSH 3
+ILOAD b
+ISUB
+// se è vero, vai al loop, altrimenti saltalo
+IFLT loop
+GOTO dopowhile
+
+loop:
+IINC a 1
+IINC b -1
+// ricontrolla la condizione una volta finito il loop
+GOTO condizionewhile
+
+dopowhile:
+// if(a%3==0)
+LDC_W OBJREF
+ILOAD a
+BIPUSH 3
+INVOKEVIRTUAL mod
+// se è vero vai al ramo vero, altrimenti al ramo falso
+IFEQ ifvero
+GOTO iffalso
+
+// ramo vero
+ifvero:
+IINC a 2
+GOTO dopoif
+
+// ramo falso
+iffalso:
+IINC b -1
+
+dopoif:
+// return(a+b-4)
+ILOAD a
+ILOAD b
+BIPUSH 4
+IADD
+IADD
+ISUB
+RETURN
+
+.end-method
+
 
 .method mul(i, j)
     ILOAD j
