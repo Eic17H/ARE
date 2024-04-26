@@ -57,16 +57,18 @@ INVOKEVIRTUAL print
 .end-main
 
 .method fun1(a, b)
-// if(a%2 == 0)
+
+// if(a%2 == 0): if1
 LDC_W OBJREF
 ILOAD a
 BIPUSH 2
 INVOKEVIRTUAL mod
 
-IFEQ ifvero
-GOTO iffalso
+// se è vero, va al ramo vero, altrimenti va al ramo falso
+IFEQ if1vero
+GOTO if1falso
 
-ifvero:
+if1vero:
 
 // while(b+4-a < 0)
 condizionewhile:
@@ -75,15 +77,20 @@ BIPUSH 4
 IADD
 ILOAD a
 ISUB
+// se è vero, procede con il loop, altrimenti lo salta e passa avanti
 IFLT whilevero
 GOTO whilefalso
 
+// eseguito il loop, torna su per verificare la condizione di nuovo
 whilevero:
+// a--
 IINC a -1
 GOTO condizionewhile
 
-// else if(!(a-b/2<0))
-iffalso:
+// ramo falso di if1 (else)
+if1falso:
+// if(!(a - b/2 < 0)): if2
+// se è nonminore, allora è maggiore o uguale
 ILOAD a
 LDC_W OBJREF
 ILOAD b
@@ -91,11 +98,18 @@ BIPUSH 2
 INVOKEVIRTUAL div
 ISUB
 
+// se è vero, vai avanti, se è falso, salta le istruzioni
+// il ramo falso è vuoto, quindi il ramo vero non ha niente dal saltare
 IFLT if2falso
+
+// ramo vero di if2
 IINC a 3
 
+// si esce da if2 e anche da while
 if2falso:
 whilefalso:
+
+// return a+b
 ILOAD a
 ILOAD b
 IADD
