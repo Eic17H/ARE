@@ -117,6 +117,8 @@ IRETURN
 .end-method
 
 .method fun2(b, c)
+
+// var g = 10
 .var
 g
 .end-var
@@ -131,6 +133,9 @@ ISUB
 ISUB
 IFLT ifvero
 
+// non metto niente nel ramo falso che salti il ramo vero,
+// perché il ramo falso ha IRETURN, quindi si esce comunque dal metodo
+
 // ramo falso:
 ILOAD b
 BIPUSH 5
@@ -139,16 +144,22 @@ IRETURN
 
 // ramo vero:
 ifvero:
+
+// while(b + 2 - g < 0)
 condizionewhile:
 ILOAD b
 BIPUSH 2
 IADD
 ILOAD g
 ISUB
+
+// se è vero, vai al loop, altrimenti vai alla fine
 IFLT whilevero
 GOTO fineif
 
+// loop
 whilevero:
+// c = b/2 + g
 LDC_W OBJREF
 ILOAD b
 BIPUSH 2
@@ -156,10 +167,13 @@ INVOKEVIRTUAL div
 ILOAD g
 IADD
 ISTORE c
+// b-- g--
 IINC b 1
 IINC g -1
+// ricontrolla la condizione del loop
 GOTO condizionewhile
 
+// SBAGLIATO: non ho messo il ramo falso.
 fineif:
 LDC_W OBJREF
 ILOAD b
