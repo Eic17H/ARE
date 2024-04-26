@@ -13,41 +13,47 @@ fun1xfun2yx
 ris
 .end-var
 
+// input(x)
 LDC_W OBJREF
 INVOKEVIRTUAL input
 ISTORE x
 
+// input(y)
 LDC_W OBJREF
 INVOKEVIRTUAL input
 ISTORE y
 
+// fun1(x, x)
 LDC_W OBJREF
 ILOAD x
 ILOAD x
 INVOKEVIRTUAL fun1
 ISTORE fun1xx
 
+// fun2(y, x)
 LDC_W OBJREF
 ILOAD y
 ILOAD x
 INVOKEVIRTUAL fun2
 ISTORE fun2yx
 
+// fun1(x, fun2(y, x))
 LDC_W OBJREF
 ILOAD x
 ILOAD fun2yx
 INVOKEVIRTUAL fun1
 ISTORE fun1xfun2yx
 
+// ris = fun1(x, x) - fun1(x, fun2(y, x))
 ILOAD fun1xx
 ILOAD fun1xfun2yx
 ISUB
 ISTORE ris
 
+// print(ris)
 LDC_W OBJREF
 ILOAD ris
 INVOKEVIRTUAL print
-	
 .end-main
 
 .method fun1(a, b)
