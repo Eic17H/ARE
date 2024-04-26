@@ -67,8 +67,8 @@ ISTORE y5
 // fun1 + fun2 - y%5
 ILOAD fun1fun2y3
 ILOAD fun2y1z
-ILOAD y5
 IADD
+ILOAD y5
 ISUB
 ISTORE ris
 
@@ -118,8 +118,8 @@ IINC b -1
 dopoif:
 // return(a+b-4)
 ILOAD a
-IADD
 ILOAD b
+IADD
 BIPUSH 4
 ISUB
 IRETURN
@@ -150,7 +150,6 @@ IFLT ifvero
 GOTO iffalso
 
 ifvero:
-// b = a/2 + b
 LDC_W OBJREF
 ILOAD a
 BIPUSH 2
@@ -158,7 +157,6 @@ INVOKEVIRTUAL div
 ILOAD b
 IADD
 ISTORE b
-// a = a + 3
 IINC a 3
 GOTO dopoif
 
@@ -167,7 +165,6 @@ IINC b -2
 IINC a 2
 
 dopoif:
-// return a%2 + b + a
 LDC_W OBJREF
 ILOAD a
 BIPUSH 2
