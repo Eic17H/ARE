@@ -4,8 +4,80 @@
 .end-constant
 
 .main
+.var
+x
+y
+z
+fun1fun2y3 // fun1(fun2(x, x+2), y+3)
+fun2xx2 // fun2(x, x+2)
+fun2y1z // fun2(x+1, z)
+y5 // y%5
+ris // fun1(fun2(x,x+2), y+3) + fun2(y+1, z) - y%5
+.end-var
 
-	
+// input(x)
+LDC_W OBJREF
+INVOKEVIRTUAL input
+ISTORE x
+
+// input(y)
+LDC_W OBJREF
+INVOKEVIRTUAL input
+ISTORE y
+
+// input(z)
+LDC_W OBJREF
+INVOKEVIRTUAL input
+ISTORE z
+
+// fun2(x, x+2)
+LDC_W OBJREF
+ILOAD x
+ILOAD x
+BIPUSH 2
+IADD
+INVOKEVIRTUAL fun2
+ISTORE fun2xx2
+
+// fun1(fun2, y+3)
+LDC_W OBJREF
+ILOAD fun2xx2
+ILOAD y
+BIPUSH 3
+IADD
+INVOKEVIRTUAL fun1
+ISTORE fun1fun2y3
+
+// fun2(y+1, z)
+LDC_W OBJREF
+ILOAD y
+BIPUSH 1
+IADD
+ILOAD z
+INVOKEVIRTUAL fun2
+ISTORE fun2y1z
+
+// y%5
+LDC_W OBJREF
+ILOAD y
+BIPUSH 5
+INVOKEVIRTUAL mod
+ISTORE y5
+
+// fun1 + fun2 + y%5
+ILOAD fun1fun2y3
+ILOAD fun2y1z
+ILOAD y5
+IADD
+IADD
+ISTORE ris
+
+// print(ris)
+LDC_W OBJREF
+ILOAD ris
+INVOKEVIRTUAL print
+HALT
+
 .end-main
 
 
