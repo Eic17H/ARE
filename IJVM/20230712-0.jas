@@ -124,7 +124,60 @@ IADD
 IADD
 ISUB
 RETURN
+.end-method
 
+.method fun2(a, b)
+// while(a-b-3<0)
+condizionewhile:
+ILOAD a
+ILOAD b
+ISUB
+ILOAD 3
+ISUB
+IFLT loop
+GOTO dopowhile
+
+// a=a+2
+loop:
+IINC a 2
+GOTO condizionewhile
+dopowhile:
+
+// if(a-7<0)
+ILOAD A
+BIPUSH 7
+ISUB
+IFLT ifvero
+GOTO iffalso
+
+ifvero:
+// b = a/2 + b
+LDC_W OBJREF
+ILOAD a
+BIPUSH 2
+INVOKEVIRTUAL div
+ILOAD b
+IADD
+ISTORE b
+// a = a + 3
+IINC a 3
+GOTO dopoif
+
+iffalso:
+IINC b -2
+IINC a 2
+
+dopoif:
+// return a%2 + b + a
+LDC_W OBJREF
+ILOAD a
+BIPUSH 2
+INVOKEVIRTUAL mod
+ILOAD b
+ILOAD a
+IADD
+IADD
+RETURN
 .end-method
 
 
