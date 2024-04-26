@@ -118,10 +118,9 @@ IINC b -1
 dopoif:
 // return(a+b-4)
 ILOAD a
+IADD
 ILOAD b
 BIPUSH 4
-IADD
-IADD
 ISUB
 IRETURN
 .end-method
