@@ -5,14 +5,14 @@
 
 .main
 .var
-x
-y
-z
-fun1fun2y3 // fun1(fun2(x, x+2), y+3)
-fun2xx2 // fun2(x, x+2)
-fun2y1z // fun2(x+1, z)
-y5 // y%5
-ris // fun1(fun2(x,x+2), y+3) + fun2(y+1, z) - y%5
+    x
+    y
+    z
+    fun1fun2y3 // fun1(fun2(x, x+2), y+3)
+    fun2xx2 // fun2(x, x+2)
+    fun2y1z // fun2(x+1, z)
+    y5 // y%5
+    ris // fun1(fun2(x,x+2), y+3) + fun2(y+1, z) - y%5
 .end-var
 
 // input(x)
@@ -32,49 +32,49 @@ ISTORE z
 
 // fun2(x, x+2)
 LDC_W OBJREF
-ILOAD x
-ILOAD x
-BIPUSH 2
-IADD
+    ILOAD x
+    ILOAD x
+    BIPUSH 2
+    IADD
 INVOKEVIRTUAL fun2
 ISTORE fun2xx2
 
 // fun1(fun2, y+3)
 LDC_W OBJREF
-ILOAD fun2xx2
-ILOAD y
-BIPUSH 3
-IADD
+    ILOAD fun2xx2
+    ILOAD y
+    BIPUSH 3
+    IADD
 INVOKEVIRTUAL fun1
 ISTORE fun1fun2y3
 
 // fun2(y+1, z)
 LDC_W OBJREF
-ILOAD y
-BIPUSH 1
-IADD
-ILOAD z
+    ILOAD y
+    BIPUSH 1
+    IADD
+    ILOAD z
 INVOKEVIRTUAL fun2
 ISTORE fun2y1z
 
 // y%5
 LDC_W OBJREF
-ILOAD y
-BIPUSH 5
+    ILOAD y
+    BIPUSH 5
 INVOKEVIRTUAL mod
 ISTORE y5
 
 // fun1 + fun2 - y%5
-ILOAD fun1fun2y3
-ILOAD fun2y1z
+    ILOAD fun1fun2y3
+    ILOAD fun2y1z
 IADD
-ILOAD y5
+    ILOAD y5
 ISUB
 ISTORE ris
 
 // print(ris)
 LDC_W OBJREF
-ILOAD ris
+    ILOAD ris
 INVOKEVIRTUAL print
 HALT
 
@@ -83,24 +83,24 @@ HALT
 .method fun1(a, b)
 // while(3-b<0)
 condizionewhile:
-BIPUSH 3
-ILOAD b
+    BIPUSH 3
+    ILOAD b
 ISUB
 // se è vero, vai al loop, altrimenti saltalo
 IFLT loop
 GOTO dopowhile
 
 loop:
-IINC a 1
-IINC b -1
+    IINC a 1
+    IINC b -1
 // ricontrolla la condizione una volta finito il loop
 GOTO condizionewhile
 
 dopowhile:
 // if(a%3==0)
 LDC_W OBJREF
-ILOAD a
-BIPUSH 3
+    ILOAD a
+    BIPUSH 3
 INVOKEVIRTUAL mod
 // se è vero vai al ramo vero, altrimenti al ramo falso
 IFEQ ifvero
@@ -108,19 +108,19 @@ GOTO iffalso
 
 // ramo vero
 ifvero:
-IINC a 2
+    IINC a 2
 GOTO dopoif
 
 // ramo falso
 iffalso:
-IINC b -1
+    IINC b -1
 
 dopoif:
 // return(a+b-4)
-ILOAD a
-ILOAD b
+    ILOAD a
+    ILOAD b
 IADD
-BIPUSH 4
+    BIPUSH 4
 ISUB
 IRETURN
 .end-method
@@ -128,23 +128,23 @@ IRETURN
 .method fun2(a, b)
 // while(a-b-3<0)
 condizionewhile:
-ILOAD a
-ILOAD b
+    ILOAD a
+    ILOAD b
 ISUB
-BIPUSH 3
+    BIPUSH 3
 ISUB
 IFLT loop
 GOTO dopowhile
 
 // a=a+2
 loop:
-IINC a 2
+    IINC a 2
 GOTO condizionewhile
 dopowhile:
 
 // if(a-7<0)
-ILOAD a
-BIPUSH 7
+    ILOAD a
+    BIPUSH 7
 ISUB
 IFLT ifvero
 GOTO iffalso
@@ -152,28 +152,28 @@ GOTO iffalso
 ifvero:
 // b = a/2 + b
 LDC_W OBJREF
-ILOAD a
-BIPUSH 2
+    ILOAD a
+    BIPUSH 2
 INVOKEVIRTUAL div
-ILOAD b
+    ILOAD b
 IADD
 ISTORE b
 // a = a + 3
-IINC a 3
+    IINC a 3
 GOTO dopoif
 
 iffalso:
-IINC b -2
-IINC a 2
+    IINC b -2
+    IINC a 2
 
 dopoif:
 // return a%2 + b + a
 LDC_W OBJREF
-ILOAD a
-BIPUSH 2
+    ILOAD a
+    BIPUSH 2
 INVOKEVIRTUAL mod
-ILOAD b
-ILOAD a
+    ILOAD b
+    ILOAD a
 IADD
 IADD
 IRETURN
