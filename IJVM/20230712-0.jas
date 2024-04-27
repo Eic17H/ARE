@@ -4,179 +4,148 @@
 .end-constant
 
 .main
-.var
-    x
-    y
-    z
-    fun1fun2y3 // fun1(fun2(x, x+2), y+3)
-    fun2xx2 // fun2(x, x+2)
-    fun2y1z // fun2(x+1, z)
-    y5 // y%5
-    ris // fun1(fun2(x,x+2), y+3) + fun2(y+1, z) - y%5
-.end-var
+    .var
+        x
+        y
+        z
+    .end-var
 
-// input(x)
-LDC_W OBJREF
-INVOKEVIRTUAL input
-ISTORE x
+    LDC_W OBJREF
+    INVOKEVIRTUAL input
+        ISTORE x
 
-// input(y)
-LDC_W OBJREF
-INVOKEVIRTUAL input
-ISTORE y
+    LDC_W OBJREF
+    INVOKEVIRTUAL input
+        ISTORE y
 
-// input(z)
-LDC_W OBJREF
-INVOKEVIRTUAL input
-ISTORE z
+    LDC_W OBJREF
+    INVOKEVIRTUAL input
+        ISTORE z
 
-// fun2(x, x+2)
-LDC_W OBJREF
-    ILOAD x
-    ILOAD x
-    BIPUSH 2
-    IADD
-INVOKEVIRTUAL fun2
-ISTORE fun2xx2
-
-// fun1(fun2, y+3)
-LDC_W OBJREF
-    ILOAD fun2xx2
-    ILOAD y
-    BIPUSH 3
-    IADD
-INVOKEVIRTUAL fun1
-ISTORE fun1fun2y3
-
-// fun2(y+1, z)
-LDC_W OBJREF
-    ILOAD y
-    BIPUSH 1
-    IADD
-    ILOAD z
-INVOKEVIRTUAL fun2
-ISTORE fun2y1z
-
-// y%5
-LDC_W OBJREF
-    ILOAD y
-    BIPUSH 5
-INVOKEVIRTUAL mod
-ISTORE y5
-
-// fun1 + fun2 - y%5
-    ILOAD fun1fun2y3
-    ILOAD fun2y1z
-IADD
-    ILOAD y5
-ISUB
-ISTORE ris
-
-// print(ris)
-LDC_W OBJREF
-    ILOAD ris
-INVOKEVIRTUAL print
-HALT
-
+    LDC_W OBJREF
+            // fun1(fun2(x, x+2), y+3)
+            LDC_W OBJREF
+                LDC_W OBJREF
+                    ILOAD x
+                        ILOAD x
+                        BIPUSH 2
+                    IADD
+                INVOKEVIRTUAL fun2
+                    ILOAD y
+                    BIPUSH 3
+                IADD
+            INVOKEVIRTUAL fun1
+            // fun2(y+1, z)
+            LDC_W OBJREF
+                    ILOAD y
+                    BIPUSH 1
+                IADD
+                ILOAD z
+            INVOKEVIRTUAL fun2
+        // fun1+fun2
+        IADD
+            // y%5
+            LDC_W OBJREF
+                ILOAD y
+                BIPUSH 5
+            INVOKEVIRTUAL mod
+        ISUB // fun1+fun2-y%5
+    INVOKEVIRTUAL print
+    HALT
 .end-main
 
 .method fun1(a, b)
-// while(3-b<0)
-condizionewhile:
-    BIPUSH 3
-    ILOAD b
-ISUB
-// se è vero, vai al loop, altrimenti saltalo
-IFLT loop
-GOTO dopowhile
+    condizione:
+    // while(3-b<0)
+            BIPUSH 3
+            ILOAD b
+        ISUB
+    IFLT loop
+    GOTO dopowhile
 
-loop:
-    IINC a 1
-    IINC b -1
-// ricontrolla la condizione una volta finito il loop
-GOTO condizionewhile
+    loop:
+        IINC a 1
+        IINC b -1
+    GOTO condizione
+    dopowhile:
 
-dopowhile:
-// if(a%3==0)
-LDC_W OBJREF
-    ILOAD a
-    BIPUSH 3
-INVOKEVIRTUAL mod
-// se è vero vai al ramo vero, altrimenti al ramo falso
-IFEQ ifvero
-GOTO iffalso
+    // if(a%3==0)
+        LDC_W OBJREF
+            ILOAD a
+            BIPUSH 3
+        INVOKEVIRTUAL mod
+    IFEQ vero
+    GOTO falso
 
-// ramo vero
-ifvero:
-    IINC a 2
-GOTO dopoif
+    vero:
+        IINC a 2
+    GOTO dopoif
 
-// ramo falso
-iffalso:
-    IINC b -1
+    falso:
+        IINC b -1
+    dopoif:
 
-dopoif:
-// return(a+b-4)
-    ILOAD a
-    ILOAD b
-IADD
-    BIPUSH 4
-ISUB
-IRETURN
+    // return a+b-4
+            ILOAD a
+            ILOAD b
+        IADD
+            BIPUSH 4
+        ISUB
+    IRETURN
 .end-method
 
 .method fun2(a, b)
-// while(a-b-3<0)
-condizionewhile:
-    ILOAD a
-    ILOAD b
-ISUB
-    BIPUSH 3
-ISUB
-IFLT loop
-GOTO dopowhile
+    condizione:
+    // while(a-b-3<0)
+                ILOAD a
+                ILOAD b
+            ISUB
+                BIPUSH 3
+            ISUB
+        IFLT loop
+        GOTO dopowhile
 
-// a=a+2
-loop:
-    IINC a 2
-GOTO condizionewhile
-dopowhile:
+    loop:
+        IINC a 2
+    GOTO condizione
+    dopowhile:
 
-// if(a-7<0)
-    ILOAD a
-    BIPUSH 7
-ISUB
-IFLT ifvero
-GOTO iffalso
+    // if(a-7<0)
+            ILOAD a
+            BIPUSH 7
+        ISUB
+    IFLT vero
+    GOTO falso
 
-ifvero:
-// b = a/2 + b
-LDC_W OBJREF
-    ILOAD a
-    BIPUSH 2
-INVOKEVIRTUAL div
-    ILOAD b
-IADD
-ISTORE b
-// a = a + 3
-    IINC a 3
-GOTO dopoif
+    // b = a/2 + b; a+=3;
+    vero:
+                LDC_W OBJREF
+                    ILOAD a
+                    BIPUSH 2
+                INVOKEVIRTUAL div
+                ILOAD b
+            IADD
+        ISTORE b
+        IINC a 3
+    GOTO dopoif
 
-iffalso:
-    IINC b -2
-    IINC a 2
+    // b-=2; a+=2;
+    falso:
+        IINC b -2
+        IINC a 2
 
-dopoif:
-// return a%2 + b + a
-LDC_W OBJREF
-    ILOAD a
-    BIPUSH 2
-INVOKEVIRTUAL mod
-    ILOAD b
-    ILOAD a
-IADD
-IADD
-IRETURN
+    dopoif:
+
+    // return a%2 + a+b
+            LDC_W OBJREF
+                ILOAD a
+                BIPUSH 2
+            INVOKEVIRTUAL mod
+            ILOAD a
+            ILOAD b
+        IADD
+        IADD
+    IRETURN
 .end-method
 
 
@@ -195,7 +164,7 @@ IRETURN
 	GOTO fine
 zero:
 	BIPUSH 0x0
-fine:     
+fine:
 	IRETURN
 .end-method
 
@@ -214,29 +183,29 @@ fine:
 	ILOAD b
 	INVOKEVIRTUAL mod
 	GOTO fine
-stop:      
+stop:
 	ILOAD a
 fine:
 	IRETURN
 .end-method
 
-.method div (a, b)    
-	ILOAD a    
-	ILOAD b        
-	ISUB        
-	IFLT stop    
-	LDC_W OBJREF    
-	ILOAD a         
-	ILOAD b        
-	ISUB        
-	ILOAD b        
+.method div (a, b)
+	ILOAD a
+	ILOAD b
+	ISUB
+	IFLT stop
+	LDC_W OBJREF
+	ILOAD a
+	ILOAD b
+	ISUB
+	ILOAD b
 	INVOKEVIRTUAL div
-	BIPUSH 1        
-	IADD        
+	BIPUSH 1
+	IADD
 	GOTO fine
-stop:        
-	BIPUSH 0x0    
-fine:        
+stop:
+	BIPUSH 0x0
+fine:
 	IRETURN
 .end-method
 
@@ -244,41 +213,41 @@ fine:
 	.var
 		num
 	.end-var
-	
+
 	BIPUSH 0x0
 	ISTORE num
-	
+
 loop:
 	IN
 	DUP
-	
+
 	LDC_W ENDLINE
 	ISUB
 	IFEQ stop
-	
+
 	BIPUSH 0x30
 	ISUB
-	
+
 	LDC_W OBJREF
 	ILOAD num
 	BIPUSH 10
 	INVOKEVIRTUAL mul
-	
+
 	IADD
 	ISTORE num
 	GOTO loop
-	
+
 stop:
 	ILOAD num
 	IRETURN
-	
+
 .end-method
 
 
 .method print(x)
 	ILOAD x
 	IFEQ printz
-	
+
 	LDC_W OBJREF
 	ILOAD x
 	INVOKEVIRTUAL print_digits
@@ -299,25 +268,25 @@ end:
 
 	ILOAD x
 	IFEQ end
-	
+
 	LDC_W OBJREF
 	ILOAD x
 	BIPUSH 10
 	INVOKEVIRTUAL mod
-	
+
 	BIPUSH 0x30
 	IADD
 	ISTORE char
-	
+
 	LDC_W OBJREF
 	ILOAD x
 	BIPUSH 10
 	INVOKEVIRTUAL div
-	
+
 	LDC_W OBJREF
 	SWAP
 	INVOKEVIRTUAL print_digits
-	
+
 	ILOAD char
 	OUT
 
