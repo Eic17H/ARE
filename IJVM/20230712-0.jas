@@ -150,6 +150,7 @@ IFLT ifvero
 GOTO iffalso
 
 ifvero:
+// b = a/2 + b
 LDC_W OBJREF
 ILOAD a
 BIPUSH 2
@@ -157,6 +158,7 @@ INVOKEVIRTUAL div
 ILOAD b
 IADD
 ISTORE b
+// a = a + 3
 IINC a 3
 GOTO dopoif
 
@@ -165,6 +167,7 @@ IINC b -2
 IINC a 2
 
 dopoif:
+// return a%2 + b + a
 LDC_W OBJREF
 ILOAD a
 BIPUSH 2
