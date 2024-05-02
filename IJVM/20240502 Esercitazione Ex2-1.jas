@@ -1,0 +1,91 @@
+.constant
+	OBJREF 0x40
+.end-constant
+
+.main
+	.var
+		r
+	.end-var
+
+	// r = fun2(fun1, fun1)
+	LDC_W OBJREF
+		// fun1(3, 10, 10)
+		LDC_W OBJREF
+			BIPUSH 3
+			BIPUSH 10
+			BIPUSH 10
+		INVOKEVIRTUAL fun1
+
+		// fun1(7, 4, 10)
+		LDC_W OBJREF
+			BIPUSH 7
+			BIPUSH 4
+			BIPUSH 10
+		INVOKEVIRTUAL fun1
+	INVOKEVIRTUAL fun2
+	ISTORE r
+	HALT
+.end-main
+
+.method fun1(x, y, z)
+	// se x>0&&y>0 loop, altrimenti esci
+	condizione:
+		ILOAD x
+		IFLT dopoloop
+		ILOAD x
+		IFEQ dopoloop
+		ILOAD y
+		IFLT dopoloop
+		ILOAD y
+		IFEQ dopoloop
+
+	// z=z+z-y y=y-x x-=1
+		ILOAD z
+		DUP
+		IADD
+		ILOAD y
+		ISUB
+		ISTORE z
+
+		ILOAD y
+		ILOAD x
+		ISUB
+		ISTORE y
+
+		IINC x -1
+	
+	GOTO condizione
+
+	// return z
+	dopoloop:
+		ILOAD z
+		IRETURN
+.end-method
+
+.method fun2(x, y)
+	// if(y-x<0) vero, altrimenti falso
+			ILOAD y
+			ILOAD x
+		ISUB
+	IFLT vero
+	GOTO falso
+
+	// return 3+fun2(x-2, y-1)
+	vero:
+				BIPUSH 3
+				LDC_W OBJREF
+						ILOAD x
+						BIPUSH 2
+					ISUB
+						ILOAD y
+						BIPUSH 1
+					ISUB
+				INVOKEVIRTUAL fun2
+			IADD
+		IRETURN
+	
+	// return x
+	falso:
+			ILOAD x
+		IRETURN
+.end-method
