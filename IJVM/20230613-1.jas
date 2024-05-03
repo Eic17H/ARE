@@ -1,0 +1,46 @@
+.method fun1(a, b)
+	.var
+		i
+	.end-var
+		
+		BIPUSH 1
+	ISTORE i
+
+	condizione:
+			ILOAD i
+			BIPUSH 4
+		ISUB
+	IFLT loop
+	GOTO dopoloop
+	
+	loop:
+		IINC b 3
+		IINC i 1
+	GOTO condizione
+	dopoloop:
+
+			ILOAD a
+			ILOAD b
+		ISUB
+	IFLT vero
+	GOTO falso
+
+	vero:
+				ILOAD a
+				ILOAD b
+			IADD
+		ISTORE a
+	GOTO dopoif
+
+	falso:
+		IINC b 1
+	dopoif:
+
+			ILOAD b
+			LDC_OBJREF
+				ILOAD a
+				BIPUSH 3
+			INVOKEVIRTUAL mod
+		IADD
+	IRETURN
+.end-method
