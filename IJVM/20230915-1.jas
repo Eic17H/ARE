@@ -55,7 +55,7 @@
 			LDC_W OBJREF
 				ILOAD a
 				BIPUSH 2
-			INVOKEVIRTUAL OBJREF
+			INVOKEVIRTUAL mul
 		ISUB
 	// if(<0)
 	IFLT vero
@@ -98,7 +98,43 @@
 .end-method
 
 .method fun2(a, b)
-	BIPUSH 2
+	// while(b+1-a<0)
+	condizione:
+				ILOAD b
+				BIPUSH 1
+			IADD
+			BIPUSH a
+		ISUB
+	IFLT loop
+	GOTO dopoloop
+
+	loop:
+		IINC b 2
+		IINC a -1
+	GOTO condizione
+	dopoloop:
+
+	// if(5-b<0)
+			BIPUSH 5
+			ILOAD b
+		ISUB
+	IFLT vero
+	GOTO falso
+
+	vero:
+		IINC a 2
+	GOTO dopoif
+
+	falso:
+		IINC b -1
+		IINC a 1
+	dopoif:
+
+				ILOAD a
+				BIPUSH 2
+			ISUB
+			ILOAD b
+		IADD
 	IRETURN
 .end-method
 
