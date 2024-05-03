@@ -1,141 +1,141 @@
 .constant
-OBJREF 0x40
-endline 0x3b
+	OBJREF 0x40
+	endline 0x3b
 .end-constant
 
 .main
-.var
-x
-y
-z
-.end-var
+	.var
+		x
+		y
+		z
+	.end-var
 
-// input(x, y, z)
-LDC_W OBJREF
-INVOKEVIRTUAL input
-ISTORE x
-LDC_W OBJREF
-INVOKEVIRTUAL input
-ISTORE y
-LDC_W OBJREF
-INVOKEVIRTUAL input
-ISTORE z
+	// input(x, y, z)
+		LDC_W OBJREF
+		INVOKEVIRTUAL input
+	ISTORE x
+		LDC_W OBJREF
+		INVOKEVIRTUAL input
+	ISTORE y
+		LDC_W OBJREF
+		INVOKEVIRTUAL input
+	ISTORE z
 
-// print(fun1 + fun2 + mul)
-LDC_W OBJREF
-// fun1(fun2, z)
-LDC_W OBJREF
-// fun2(x, y)
-LDC_W OBJREF
-ILOAD x
-ILOAD y
-INVOKEVIRTUAL fun2
-ILOAD z
-INVOKEVIRTUAL fun1
+	// print(fun1 + fun2 + mul)
+	LDC_W OBJREF
+			// fun1(fun2, z)
+			LDC_W OBJREF
+				// fun2(x, y)
+				LDC_W OBJREF
+					ILOAD x
+					ILOAD y
+				INVOKEVIRTUAL fun2
+				ILOAD z
+			INVOKEVIRTUAL fun1
+			
+			// fun2(x, y)
+			LDC_W OBJREF
+				ILOAD x
+				ILOAD y
+			INVOKEVIRTUAL fun2
 
-// fun2(x, y)
-LDC_W OBJREF
-ILOAD x
-ILOAD y
-INVOKEVIRTUAL fun2
-
-// y*3
-LDC_W OBJREF
-ILOAD y
-BIPUSH 3
-INVOKEVIRTUAL mul
-IADD
-IADD
-INVOKEVIRTUAL print
+			// y*3
+			LDC_W OBJREF
+				ILOAD y
+				BIPUSH 3
+			INVOKEVIRTUAL mul
+		IADD
+		IADD
+	INVOKEVIRTUAL print
 .end-main
 
 .method fun1(a, b)
-// 10-a*2
-BIPUSH 10
-LDC_W OBJREF
-ILOAD a
-BIPUSH 2
-INVOKEVIRTUAL OBJREF
-ISUB
-// if(<0)
-IFLT vero
-GOTO falso
+		// 10-a*2
+			BIPUSH 10
+			LDC_W OBJREF
+				ILOAD a
+				BIPUSH 2
+			INVOKEVIRTUAL OBJREF
+		ISUB
+	// if(<0)
+	IFLT vero
+	GOTO falso
 
-vero:
-// b = a+b
-ILOAD a
-ILOAD b
-IADD
-ISTORE b
-GOTO dopoif
+	vero:
+		// b = a+b
+				ILOAD a
+				ILOAD b
+			IADD
+		ISTORE b
+	GOTO dopoif
 
-falso:
-// b+=2 a+=1
-IINC b 2
-IINC a 1
-dopoif:
+	falso:
+		// b+=2 a+=1
+		IINC b 2
+		IINC a 1
+	dopoif:
 
-// while(b%2==0)
-condizione:
-LDC_W OBJREF
-ILOAD b
-BIPUSH 2
-INVOKEVIRTUAL mod
-IFEQ loop
-GOTO dopoloop
+	// while(b%2==0)
+	condizione:
+		LDC_W OBJREF
+			ILOAD b
+			BIPUSH 2
+		INVOKEVIRTUAL mod
+	IFEQ loop
+	GOTO dopoloop
 
-loop:
-IINC B 3
-GOTO condizione
-dopoloop:
+	loop:
+		IINC B 3
+	GOTO condizione
+	dopoloop:
 
-ILOAD b
-ILOAD a
-BIPUSH 4
-IADD
-IADD
-IRETURN
+			ILOAD b
+			ILOAD a
+			BIPUSH 4
+		IADD
+		IADD
+	IRETURN
 .end-method
 
 .method fun2(a, b)
-// while(b+1-a<0)
-condizione:
-ILOAD b
-BIPUSH 1
-IADD
-BIPUSH a
-ISUB
-IFLT loop
-GOTO dopoloop
+	// while(b+1-a<0)
+	condizione:
+				ILOAD b
+				BIPUSH 1
+			IADD
+			BIPUSH a
+		ISUB
+	IFLT loop
+	GOTO dopoloop
 
-loop:
-IINC b 2
-IINC a -1
-GOTO condizione
-dopoloop:
+	loop:
+		IINC b 2
+		IINC a -1
+	GOTO condizione
+	dopoloop:
 
-// if(5-b<0)
-BIPUSH 5
-ILOAD b
-ISUB
-IFLT vero
-GOTO falso
+	// if(5-b<0)
+			BIPUSH 5
+			ILOAD b
+		ISUB
+	IFLT vero
+	GOTO falso
 
-vero:
-IINC a 2
-GOTO dopoif
+	vero:
+		IINC a 2
+	GOTO dopoif
 
-falso:
-IINC b -1
-IINC a 1
-dopoif:
+	falso:
+		IINC b -1
+		IINC a 1
+	dopoif:
 
-ILOAD a
-BIPUSH 2
-ISUB
-ILOAD b
-IADD
-IRETURN
+				ILOAD a
+				BIPUSH 2
+			ISUB
+			ILOAD b
+		IADD
+	IRETURN
 .end-method
 
 .method mul(i, j)
@@ -149,137 +149,137 @@ IRETURN
     ILOAD j
     INVOKEVIRTUAL mul
     ILOAD i
-IADD
-GOTO fine
+	IADD
+	GOTO fine
 zero:
-BIPUSH 0x0
+	BIPUSH 0x0
 fine:     
-IRETURN
+	IRETURN
 .end-method
 
 
 .method mod (a, b)
-ILOAD a
-IFEQ stop
-ILOAD a
-ILOAD b
-ISUB
-IFLT stop
-LDC_W OBJREF
-ILOAD a
-ILOAD b
-ISUB
-ILOAD b
-INVOKEVIRTUAL mod
-GOTO fine
+	ILOAD a
+	IFEQ stop
+	ILOAD a
+	ILOAD b
+	ISUB
+	IFLT stop
+	LDC_W OBJREF
+	ILOAD a
+	ILOAD b
+	ISUB
+	ILOAD b
+	INVOKEVIRTUAL mod
+	GOTO fine
 stop:      
-ILOAD a
+	ILOAD a
 fine:
-IRETURN
+	IRETURN
 .end-method
 
 .method div (a, b)    
-ILOAD a    
-ILOAD b        
-ISUB        
-IFLT stop    
-LDC_W OBJREF    
-ILOAD a         
-ILOAD b        
-ISUB        
-ILOAD b        
-INVOKEVIRTUAL div
-BIPUSH 1        
-IADD        
-GOTO fine
+	ILOAD a    
+	ILOAD b        
+	ISUB        
+	IFLT stop    
+	LDC_W OBJREF    
+	ILOAD a         
+	ILOAD b        
+	ISUB        
+	ILOAD b        
+	INVOKEVIRTUAL div
+	BIPUSH 1        
+	IADD        
+	GOTO fine
 stop:        
-BIPUSH 0x0    
+	BIPUSH 0x0    
 fine:        
-IRETURN
+	IRETURN
 .end-method
 
 .method input()
-.var
-num
-.end-var
-
-BIPUSH 0x0
-ISTORE num
-
+	.var
+		num
+	.end-var
+	
+	BIPUSH 0x0
+	ISTORE num
+	
 loop:
-IN
-DUP
-
-LDC_W ENDLINE
-ISUB
-IFEQ stop
-
-BIPUSH 0x30
-ISUB
-
-LDC_W OBJREF
-ILOAD num
-BIPUSH 10
-INVOKEVIRTUAL mul
-
-IADD
-ISTORE num
-GOTO loop
-
+	IN
+	DUP
+	
+	LDC_W ENDLINE
+	ISUB
+	IFEQ stop
+	
+	BIPUSH 0x30
+	ISUB
+	
+	LDC_W OBJREF
+	ILOAD num
+	BIPUSH 10
+	INVOKEVIRTUAL mul
+	
+	IADD
+	ISTORE num
+	GOTO loop
+	
 stop:
-ILOAD num
-IRETURN
-
+	ILOAD num
+	IRETURN
+	
 .end-method
 
 
 .method print(x)
-ILOAD x
-IFEQ printz
-
-LDC_W OBJREF
-ILOAD x
-INVOKEVIRTUAL print_digits
-GOTO end
+	ILOAD x
+	IFEQ printz
+	
+	LDC_W OBJREF
+	ILOAD x
+	INVOKEVIRTUAL print_digits
+	GOTO end
 printz:
-BIPUSH 0x30
-OUT
+	BIPUSH 0x30
+	OUT
 end:
 
-BIPUSH 0
-IRETURN
+	BIPUSH 0
+	IRETURN
 .end-method
 
 .method print_digits(x)
-.var
-char
-.end-var
+	.var
+		char
+	.end-var
 
-ILOAD x
-IFEQ end
-
-LDC_W OBJREF
-ILOAD x
-BIPUSH 10
-INVOKEVIRTUAL mod
-
-BIPUSH 0x30
-IADD
-ISTORE char
-
-LDC_W OBJREF
-ILOAD x
-BIPUSH 10
-INVOKEVIRTUAL div
-
-LDC_W OBJREF
-SWAP
-INVOKEVIRTUAL print_digits
-
-ILOAD char
-OUT
+	ILOAD x
+	IFEQ end
+	
+	LDC_W OBJREF
+	ILOAD x
+	BIPUSH 10
+	INVOKEVIRTUAL mod
+	
+	BIPUSH 0x30
+	IADD
+	ISTORE char
+	
+	LDC_W OBJREF
+	ILOAD x
+	BIPUSH 10
+	INVOKEVIRTUAL div
+	
+	LDC_W OBJREF
+	SWAP
+	INVOKEVIRTUAL print_digits
+	
+	ILOAD char
+	OUT
 
 end:
-BIPUSH 0
-IRETURN
+	BIPUSH 0
+	IRETURN
 .end-method
