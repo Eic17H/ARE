@@ -8,12 +8,13 @@
 		x
 		y
 		z
-		fun1fun2y1
-		fun2xz1
-		fun2x3y
-		z3
+		fun1fun2y1 // fun1(fun2, y+1)
+		fun2xz1 // fun2(x, z+1)
+		fun2x3y	// fun2(x+3, y)
+		z3 // z/3
 	.end-var
 
+	// fun2(x, z+1)
 		LDC_W OBJREF
 			ILOAD x
 				ILOAD z
@@ -22,6 +23,7 @@
 		INVOKEVIRTUAL fun2
 	ISTORE fun2xz1
 
+	// fun1(fun2xz1, y+1)
 		LDC_W OBJREF
 			ILOAD fun2xz1
 				ILOAD y
@@ -30,6 +32,7 @@
 		INVOKEVIRTUAL fun1
 	ISTORE fun1fun2y1
 	
+	// fun2(x+3, y)
 		LDC_W OBJREF
 				ILOAD x
 				BIPUSH 3
@@ -38,12 +41,14 @@
 		INVOKEVIRTUAL fun2
 	ISTORE fun2x3y
 
+	// z/3
 		LDC_W OBJREF
 			ILOAD z
 			BIPUSH 3
 		INVOKEVIRTUAL div
 	ISTORE z3
 
+	// print(fun1fun2y1 + fun2x3y + z3)
 	LDC_W OBJREF
 			ILOAD fun1fun2y1
 			ILOAD fun2x3y
@@ -58,9 +63,13 @@
 		i
 	.end-var
 		
+	// for(i=1; i<4; i++)
+
+	// i=1
 		BIPUSH 1
 	ISTORE i
 
+	// i<4 ? esegui il loop : salta il loop
 	condizione:
 			ILOAD i
 			BIPUSH 4
@@ -68,18 +77,22 @@
 	IFLT loop
 	GOTO dopoloop
 	
+	// b+=3
+	// i++
 	loop:
 		IINC b 3
 		IINC i 1
 	GOTO condizione
 	dopoloop:
 
+	// if(a<b)
 			ILOAD a
 			ILOAD b
 		ISUB
 	IFLT vero
 	GOTO falso
 
+	// a += b
 	vero:
 				ILOAD a
 				ILOAD b
@@ -87,10 +100,12 @@
 		ISTORE a
 	GOTO dopoif
 
+	// b++
 	falso:
 		IINC b 1
 	dopoif:
 
+	// return b+a%3
 			ILOAD b
 			LDC_OBJREF
 				ILOAD a
@@ -101,6 +116,7 @@
 .end-method
 
 .method fun2(a, b)
+	// while(a%2==0)
 	condizione:
 		LDC_W OBJREF
 			ILOAD a
@@ -109,31 +125,36 @@
 	IFEQ loop
 	GOTO dopoloop
 
+	// a++
 	loop:
 		IINC a 1
 	GOTO condizione
 	dopoloop:
 
+	// if(a<7)
 			ILOAD a
 			BIPUSH 7
 		ISUB
 	IFLT vero
 	GOTO falso
 
+	// b+=2
 	vero:
 		IINC b 2
 	GOTO dopoif
 
+	// b+=3 a++
 	falso:
 		IINC b 3
 		IINC a 1
 	dopoif:
 
+	// return b-a+4
 				ILOAD b
 				ILOAD a
 			ISUB
 			BIPUSH 4
-		ISUB
+		IADD
 	IRETURN
 .end-method
 
