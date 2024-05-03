@@ -100,6 +100,43 @@
 	IRETURN
 .end-method
 
+.method fun2(a, b)
+	condizione:
+		LDC_W OBJREF
+			ILOAD a
+			ILOAD 2
+		INVOKEVIRTUAL mod
+	IFEQ loop
+	GOTO dopoloop
+
+	loop:
+		IINC a 1
+	GOTO condizione
+	dopoloop:
+
+			ILOAD a
+			BIPUSH 7
+		ISUB
+	IFLT vero
+	GOTO falso
+
+	vero:
+		IINC b 2
+	GOTO dopoif
+
+	falso:
+		IINC b 3
+		IINC a 1
+	dopoif:
+
+				ILOAD b
+				ILOAD a
+			ISUB
+			BIPUSH 4
+		ISUB
+	IRETURN
+.end-method
+
 .method mul(i, j)
     ILOAD j
     IFEQ zero
