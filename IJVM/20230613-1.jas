@@ -3,6 +3,7 @@
 	endline 0x3b
 .end-constant
 
+// 1;2;3; = 19
 .main
 	.var
 		x
