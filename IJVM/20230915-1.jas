@@ -4,107 +4,58 @@
 .end-constant
 
 .main
-	LDC_W OBJREF
-		LDC_W OBJREF
-			BIPUSH 1
-			BIPUSH 2
-		INVOKEVIRTUAL fun1
-	INVOKEVIRTUAL print
+	.var
+		x
+		y
+		z
+	.end-var
 
-	LDC_W OBJREF
+	// input(x, y, z)
 		LDC_W OBJREF
-			BIPUSH 1
-			BIPUSH 2
-		INVOKEVIRTUAL fun2
+		INVOKEVIRTUAL input
+	ISTORE x
+		LDC_W OBJREF
+		INVOKEVIRTUAL input
+	ISTORE y
+		LDC_W OBJREF
+		INVOKEVIRTUAL input
+	ISTORE z
+
+	// print(fun1 + fun2 + mul)
+	LDC_W OBJREF
+			// fun1(fun2, z)
+			LDC_W OBJREF
+				// fun2(x, y)
+				LDC_W OBJREF
+					ILOAD x
+					ILOAD y
+				INVOKEVIRTUAL fun2
+				ILOAD z
+			INVOKEVIRTUAL fun1
+			
+			// fun2(x, y)
+			LDC_W OBJREF
+				ILOAD x
+				ILOAD y
+			INVOKEVIRTUAL fun2
+
+			// y*3
+			LDC_W OBJREF
+				ILOAD y
+				BIPUSH 3
+			INVOKEVIRTUAL mul
+		IADD
+		IADD
 	INVOKEVIRTUAL print
 .end-main
 
 .method fun1(a, b)
-		// 10-a*2
-			BIPUSH 10
-			LDC_W OBJREF
-				ILOAD a
-				BIPUSH 2
-			INVOKEVIRTUAL OBJREF
-		ISUB
-	// if(<0)
-	IFLT vero
-	GOTO falso
-
-	vero:
-		// b = a+b
-				ILOAD a
-				ILOAD b
-			IADD
-		ISTORE b
-	GOTO dopoif
-
-	falso:
-		// b+=2 a+=1
-		IINC b 2
-		IINC a 1
-	dopoif:
-
-	// while(b%2==0)
-	condizione:
-		LDC_W OBJREF
-			ILOAD b
-			BIPUSH 2
-		INVOKEVIRTUAL mod
-	IFEQ loop
-	GOTO dopoloop
-
-	loop:
-		IINC B 3
-	GOTO condizione
-	dopoloop:
-
-			ILOAD b
-			ILOAD a
-			BIPUSH 4
-		IADD
-		IADD
+	BIPUSH 1	
 	IRETURN
 .end-method
 
 .method fun2(a, b)
-	// while(b+1-a<0)
-	condizione:
-				ILOAD b
-				BIPUSH 1
-			IADD
-			BIPUSH a
-		ISUB
-	IFLT loop
-	GOTO dopoloop
-
-	loop:
-		IINC b 2
-		IINC a -1
-	GOTO condizione
-	dopoloop:
-
-	// if(5-b<0)
-			BIPUSH 5
-			ILOAD b
-		ISUB
-	IFLT vero
-	GOTO falso
-
-	vero:
-		IINC a 2
-	GOTO dopoif
-
-	falso:
-		IINC b -1
-		IINC a 1
-	dopoif:
-
-				ILOAD a
-				BIPUSH 2
-			ISUB
-			ILOAD b
-		IADD
+	BIPUSH 2
 	IRETURN
 .end-method
 
