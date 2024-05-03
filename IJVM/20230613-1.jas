@@ -1,3 +1,53 @@
+.main
+	.var
+		x
+		y
+		z
+		fun1fun2y1
+		fun2xz1
+		fun2x3y
+		z3
+	.end-var
+
+		LDC_W OBJREF
+			ILOAD x
+				ILOAD z
+				BIPUSH 1
+			IADD
+		INVOKEVIRTUAL fun2
+	ISTORE fun2xz1
+
+		LDC_W OBJREF
+			ILOAD fun2xz1
+				ILOAD y
+				BIPUSH 1
+			IADD
+		INVOKEVIRTUAL fun1
+	ISTORE fun1fun2y1
+	
+		LDC_W OBJREF
+				ILOAD x
+				BIPUSH 3
+			IADD
+			ILOAD y
+		INVOKEVIRTUAL fun2
+	ISTORE fun2x3y
+
+		LDC_W OBJREF
+			ILOAD z
+			BIPUSH 3
+		INVOKEVIRTUAL div
+	ISTORE z3
+
+	LDC_W OBJREF
+			ILOAD fun1fun2y1
+			ILOAD fun2x3y
+			ILOAD z3
+		IADD
+		IADD
+	INVOKEVIRTUAL print
+.end-main
+
 .method fun1(a, b)
 	.var
 		i
