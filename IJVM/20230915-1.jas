@@ -4,48 +4,18 @@
 .end-constant
 
 .main
-	.var
-		x
-		y
-		z
-	.end-var
-
-	// input(x, y, z)
-		LDC_W OBJREF
-		INVOKEVIRTUAL input
-	ISTORE x
-		LDC_W OBJREF
-		INVOKEVIRTUAL input
-	ISTORE y
-		LDC_W OBJREF
-		INVOKEVIRTUAL input
-	ISTORE z
-
-	// print(fun1 + fun2 + mul)
 	LDC_W OBJREF
-			// fun1(fun2, z)
-			LDC_W OBJREF
-				// fun2(x, y)
-				LDC_W OBJREF
-					ILOAD x
-					ILOAD y
-				INVOKEVIRTUAL fun2
-				ILOAD z
-			INVOKEVIRTUAL fun1
-			
-			// fun2(x, y)
-			LDC_W OBJREF
-				ILOAD x
-				ILOAD y
-			INVOKEVIRTUAL fun2
+		LDC_W OBJREF
+			BIPUSH 1
+			BIPUSH 2
+		INVOKEVIRTUAL fun1
+	INVOKEVIRTUAL print
 
-			// y*3
-			LDC_W OBJREF
-				ILOAD y
-				BIPUSH 3
-			INVOKEVIRTUAL mul
-		IADD
-		IADD
+	LDC_W OBJREF
+		LDC_W OBJREF
+			BIPUSH 1
+			BIPUSH 2
+		INVOKEVIRTUAL fun2
 	INVOKEVIRTUAL print
 .end-main
 
