@@ -49,6 +49,54 @@
 	INVOKEVIRTUAL print
 .end-main
 
+.method fun1(a, b)
+		// 10-a*2
+			BIPUSH 10
+			LDC_W OBJREF
+				ILOAD a
+				BIPUSH 2
+			INVOKEVIRTUAL OBJREF
+		ISUB
+	// if(<0)
+	IFLT vero
+	GOTO falso
+
+	vero:
+		// b = a+b
+				ILOAD a
+				ILOAD b
+			IADD
+		ISTORE b
+	GOTO dopoif
+
+	falso:
+		// b+=2 a+=1
+		IINC b 2
+		IINC a 1
+	dopoif:
+
+	// while(b%2==0)
+	condizione:
+		LDC_W OBJREF
+			ILOAD b
+			BIPUSH 2
+		INVOKEVIRTUAL mod
+	IFEQ loop
+	GOTO dopoloop
+
+	loop:
+		IINC B 3
+	GOTO condizione
+	dopoloop:
+
+			ILOAD b
+			ILOAD a
+			BIPUSH 4
+		IADD
+		IADD
+	IRETURN
+.end-method
+
 
 .method mul(i, j)
     ILOAD j
