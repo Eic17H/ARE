@@ -67,6 +67,7 @@
 
 	loop:
 		IINC a 1
+		IINC i -1
 	GOTO condizione
 	dopoloop:
 	
@@ -99,7 +100,6 @@
 		ISUB
 	IRETURN
 .end-method
-
 
 .method mul(i, j)
     ILOAD j
