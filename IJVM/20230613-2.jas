@@ -3,6 +3,7 @@
 	endline 0x3b
 .end-constant
 
+// 1;2;3; --> 33;
 .main
 	.var
 	x
@@ -48,6 +49,7 @@
 		IADD
 		IADD
 	INVOKEVIRTUAL print
+	HALT
 .end-main
 
 .method fun1(a, b)
@@ -101,6 +103,45 @@
 	IRETURN
 .end-method
 
+.method fun2(a, b)
+	condizione:
+			ILOAD a
+			BIPUSH 5
+		ISUB
+	IFLT loop
+	GOTO dopoloop
+
+	loop:
+		IINC a 2
+	GOTO condizione
+	dopoloop:
+
+				ILOAD a
+				BIPUSH 2
+			IADD
+			ILOAD b
+		ISUB
+	IFLT vero
+	GOTO falso
+
+	vero:
+		IINC b -1
+	GOTO dopoif
+
+	falso:
+		IINC b 3
+		IINC a 2
+	dopoif:
+
+			ILOAD a
+			LDC_W OBJREF
+				ILOAD b
+				BIPUSH 2
+			INVOKEVIRTUAL div
+		IADD
+	IRETURN
+.end-method
+
 .method mul(i, j)
     ILOAD j
     IFEQ zero
@@ -119,7 +160,6 @@ zero:
 fine:     
 	IRETURN
 .end-method
-
 
 .method mod (a, b)
 	ILOAD a
