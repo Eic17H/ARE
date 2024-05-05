@@ -50,6 +50,56 @@
 	INVOKEVIRTUAL print
 .end-main
 
+.method fun1(a, b)
+	.var
+		i
+	.end-var
+
+		BIPUSH 8
+	ISTORE i
+
+	condizione:
+			BIPUSH 4
+			ILOAD i
+    	ISUB
+	IFLT loop
+	GOTO dopoloop
+
+	loop:
+		IINC a 1
+	GOTO condizione
+	dopoloop:
+	
+			BIPUSH 5
+			ILOAD a
+		ISUB
+	IFLT vero
+	GOTO falso
+
+	vero:
+				ILOAD a
+				ILOAD b
+			IADD
+		ISTORE a
+	GOTO dopoif
+
+	falso:
+					ILOAD b
+					DUP
+				IADD
+				BIPUSH 2
+			ISUB
+		ISTORE b
+	dopoif:
+
+				ILOAD a
+				ILOAD b
+			IADD
+			BIPUSH 3
+		ISUB
+	IRETURN
+.end-method
+
 
 .method mul(i, j)
     ILOAD j
