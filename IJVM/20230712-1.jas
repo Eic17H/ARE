@@ -10,6 +10,8 @@
         z
     .end-var
 
+    // input di x, y e z
+
     LDC_W OBJREF
     INVOKEVIRTUAL input
         ISTORE x
@@ -23,9 +25,12 @@
         ISTORE z
 
     // print fun1(y,fun2(y,z+x)) + fun2(x,z) +x%3
+
     LDC_W OBJREF
+            // fun1(y, risultato di fun2)
             LDC_W OBJREF
                 ILOAD y
+                // fun2(y, z+x)
                 LDC_W OBJREF
                     ILOAD y
                         ILOAD z
@@ -34,18 +39,23 @@
                 INVOKEVIRTUAL fun2
             INVOKEVIRTUAL fun1
 
+            // fun2(x, z)
             LDC_W OBJREF
                 ILOAD x
                 ILOAD z
             INVOKEVIRTUAL fun2
 
+            // mod(x, 3), cioè x%3
             LDC_W OBJREF
                 ILOAD x
                 BIPUSH 3
             INVOKEVIRTUAL mod
 
+        // risultato di fun1 + risultato di fun2
         IADD
+        // risultato dell'addizione + risultato di mod
         IADD
+    // sullo stack rimane solo il risultato dell'ultima addizione, viene stampato quello
     INVOKEVIRTUAL print
     HALT
 .end-main
