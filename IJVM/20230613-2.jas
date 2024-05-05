@@ -4,8 +4,50 @@
 .end-constant
 
 .main
+	.var
+	x
+	y
+	z
+	fun2xz
+	fun1yfun2xz
+	zmod3
+	.end-var
 
-	
+		LDC_W OBJREF
+		INVOKEVIRTUAL input
+	ISTORE x
+		LDC_W OBJREF
+		INVOKEVIRTUAL input
+	ISTORE y
+		LDC_W OBJREF
+		INVOKEVIRTUAL input
+	ISTORE z
+
+		LDC_W OBJREF
+			ILOAD x
+			ILOAD z
+		INVOKEVIRTUAL fun2
+	ISTORE fun2xz
+
+		LDC_W OBJREF
+			ILOAD y
+			ILOAD fun2xz
+		INVOKEVIRTUAL fun1
+	ISTORE fun1yfun2xz
+
+		LDC_W OBJREF
+			ILOAD z
+			BIPUSH 3
+		INVOKEVIRTUAL mod
+	ISTORE zmod3
+
+	LDC_W OBJREF
+			ILOAD fun1yfun2xz
+			ILOAD fun2xz
+			ILOAD zmod3
+		IADD
+		IADD
+	INVOKEVIRTUAL print
 .end-main
 
 
