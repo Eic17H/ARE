@@ -3,7 +3,7 @@
 int fun1(int, int);
 int fun2(int, int);
 
-main(){
+int main(){
     int x, y, z;
     scanf("%d", &x);
     scanf("%d", &y);
