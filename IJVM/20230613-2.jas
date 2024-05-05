@@ -1,0 +1,156 @@
+.constant
+	OBJREF 0x40
+	endline 0x3b
+.end-constant
+
+.main
+
+	
+.end-main
+
+
+.method mul(i, j)
+    ILOAD j
+    IFEQ zero
+    IINC j  -1
+    ILOAD i
+    IFEQ zero
+    LDC_W OBJREF
+    ILOAD i
+    ILOAD j
+    INVOKEVIRTUAL mul
+    ILOAD i
+	IADD
+	GOTO fine
+zero:
+	BIPUSH 0x0
+fine:     
+	IRETURN
+.end-method
+
+
+.method mod (a, b)
+	ILOAD a
+	IFEQ stop
+	ILOAD a
+	ILOAD b
+	ISUB
+	IFLT stop
+	LDC_W OBJREF
+	ILOAD a
+	ILOAD b
+	ISUB
+	ILOAD b
+	INVOKEVIRTUAL mod
+	GOTO fine
+stop:      
+	ILOAD a
+fine:
+	IRETURN
+.end-method
+
+.method div (a, b)    
+	ILOAD a    
+	ILOAD b        
+	ISUB        
+	IFLT stop    
+	LDC_W OBJREF    
+	ILOAD a         
+	ILOAD b        
+	ISUB        
+	ILOAD b        
+	INVOKEVIRTUAL div
+	BIPUSH 1        
+	IADD        
+	GOTO fine
+stop:        
+	BIPUSH 0x0    
+fine:        
+	IRETURN
+.end-method
+
+.method input()
+	.var
+		num
+	.end-var
+	
+	BIPUSH 0x0
+	ISTORE num
+	
+loop:
+	IN
+	DUP
+	
+	LDC_W ENDLINE
+	ISUB
+	IFEQ stop
+	
+	BIPUSH 0x30
+	ISUB
+	
+	LDC_W OBJREF
+	ILOAD num
+	BIPUSH 10
+	INVOKEVIRTUAL mul
+	
+	IADD
+	ISTORE num
+	GOTO loop
+	
+stop:
+	ILOAD num
+	IRETURN
+	
+.end-method
+
+
+.method print(x)
+	ILOAD x
+	IFEQ printz
+	
+	LDC_W OBJREF
+	ILOAD x
+	INVOKEVIRTUAL print_digits
+	GOTO end
+printz:
+	BIPUSH 0x30
+	OUT
+end:
+
+	BIPUSH 0
+	IRETURN
+.end-method
+
+.method print_digits(x)
+	.var
+		char
+	.end-var
+
+	ILOAD x
+	IFEQ end
+	
+	LDC_W OBJREF
+	ILOAD x
+	BIPUSH 10
+	INVOKEVIRTUAL mod
+	
+	BIPUSH 0x30
+	IADD
+	ISTORE char
+	
+	LDC_W OBJREF
+	ILOAD x
+	BIPUSH 10
+	INVOKEVIRTUAL div
+	
+	LDC_W OBJREF
+	SWAP
+	INVOKEVIRTUAL print_digits
+	
+	ILOAD char
+	OUT
+
+end:
+	BIPUSH 0
+	IRETURN
+.end-method
