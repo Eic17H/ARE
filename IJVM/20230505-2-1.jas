@@ -51,6 +51,45 @@
     HALT
 .end-main
 
+.method fun1(x, y)
+    condizione:
+                ILOAD x
+                ILOAD y
+            IADD
+            BIPUSH 12
+        ISUB
+    IFLT loop
+    GOTO dopoloop
+
+    loop:
+        IINC y 2
+        IINC x 1
+    GOTO condizione
+    dopoloop:
+    
+        LDC_W OBJREF
+            ILOAD x
+            BIPUSH 2
+        INVOKEVIRTUAL mod
+    IFEQ vero
+    GOTO falso
+
+    vero:
+        IINC x 3
+        IINC y 2
+    GOTO dopoif
+
+    falso:
+        IINC x 2
+        IINC y 2
+    dopoif:
+
+            ILOAD x
+            ILOAD y
+        IADD
+    IRETURN
+.end-method
+
 
 .method mul(i, j)
     ILOAD j
