@@ -23,7 +23,7 @@ int fun1(int x, int y) {
     }
     return x + y;
 }
-int fun2(int b){
+fun2(int b){
     while(b%2 != 0){
         b = ++b;
     }

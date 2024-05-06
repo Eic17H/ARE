@@ -106,7 +106,7 @@
     GOTO loop
 
     loop:
-        IINC b 2
+        IINC b 1
     GOTO condizione
     dopoloop:
 
