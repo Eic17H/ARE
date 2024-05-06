@@ -52,6 +52,50 @@
     HALT
 .end-main
 
+.method fun1(x, y)
+    .var
+        j
+    .end-var
+
+        BIPUSH 1
+    ISTORE j
+
+    condizione:
+            ILOAD j
+            BIPUSH 4
+        ISUB
+    IFLT loop
+    GOTO dopoloop
+
+    loop:
+        IINC y 3
+        IINC j 1
+    GOTO condizione
+    dopoloop:
+
+        LDC_W OBJREF
+            ILOAD x
+            BIPUSH 2
+        INVOKEVIRTUAL mod
+    IFEQ falso
+    GOTO vero
+
+    vero:
+        IINC y 2
+        IINC x -1
+    GOTO dopoif
+
+    falso:
+        IINC x 1
+        IINC y -1
+    dopoif:
+
+            ILOAD x
+            ILOAD y
+        IADD
+    IRETURN
+.end-method
+
 
 .method mul(i, j)
     ILOAD j
