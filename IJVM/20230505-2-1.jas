@@ -44,8 +44,9 @@
     ISTORE fun2x
 
     LDC_W OBJREF
-        ILOAD fun1fun2y1xz
-        ILOAD fun2x
+            ILOAD fun1fun2y1xz
+            ILOAD fun2x
+        IADD
     INVOKEVIRTUAL print
 
     HALT
