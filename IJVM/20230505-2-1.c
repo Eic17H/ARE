@@ -9,7 +9,7 @@ int main(){
     scanf("%d", &y);
     scanf("%d", &z);
 
-    printf("%d %d %d", fun1(fun2(y+1), x+z), fun2(x), fun1(fun2(y+1), x+z) + fun2(x));
+    printf("%d", fun1(fun2(y+1), x+z) + fun2(x));
     return 0;
 }
 
