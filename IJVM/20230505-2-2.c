@@ -1,5 +1,8 @@
 #include<stdio.h>
 
+int fun1(int, int);
+int fun2(int);
+
 int main() {
     int x, y, z;
     scanf("%d", &x);
