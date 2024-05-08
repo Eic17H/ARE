@@ -10,7 +10,7 @@ int main(){
     scanf("%d", &x);
     scanf("%d", &y);
     scanf("%d", &z);
-    printf("%d", fun1(x+z,y,z));
+    printf("%d", fun1(x+z,y,z) + fun2(x+y));
 }
 
 int fun1(int a, int b, int c){
