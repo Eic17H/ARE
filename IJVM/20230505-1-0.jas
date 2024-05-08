@@ -83,6 +83,13 @@
         ISTORE b
     dopoif:
 
+            LDC_W OBJREF
+                ILOAD a
+            INVOKEVIRTUAL fun2
+            ILOAD a
+        IADD
+    ISTORE a
+
                 ILOAD a
                 ILOAD c
             IADD
