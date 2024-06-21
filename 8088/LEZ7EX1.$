@@ -12,9 +12,9 @@ _NOOFFSET = 0x30
 			SUB AX, _NOOFFSET
 		MOV CX, AX
 		MOV BX, 0
-		sium:
+		sum:
 			ADD BX, CX
-		LOOP sium
+		LOOP sum
 				PUSH BX
 				PUSH s
 			PUSH _PRINTF
