@@ -13,7 +13,6 @@ start:
         INC SI
     LOOP ciclo
     JMP vero
-    JMP fine
 
     vero:
         MOV (cresc), 1
