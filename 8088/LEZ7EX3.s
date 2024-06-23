@@ -16,11 +16,11 @@ start:
     JMP fine
 
     vero:
-        MOV (cresc), 1
+        MOVB (cresc), 1
     JMP fine
 
     falso:
-        MOV (cresc), 0
+        MOVB (cresc), 0
     JMP fine
 
     fine:
