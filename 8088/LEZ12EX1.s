@@ -15,7 +15,6 @@ _PRINTF = 127
     MOVB AL, 1
     MOV CX, (n)
 
-
     while:
     MULB DL
     ADDB DL, 1
@@ -30,6 +29,7 @@ _PRINTF = 127
             PUSH 0
         PUSH _EXIT
     SYS
+
 .SECT .DATA
     s: .ASCII "%d "
 
