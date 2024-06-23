@@ -42,7 +42,7 @@ _EXIT = 1
 .SECT .DATA
     vec1: .WORD 1,2,3,4,5,6
     vec2: .WORD 6,5,4,3,2,1
+    vec3: .WORD 0,0,0,0,0,0
     s: .ASCII "%d "
 
 .SECT .BSS
-    vec3: .SPACE 12
