@@ -4,7 +4,12 @@ _GETCHAR = 117
 _PRINTF = 127
 
 .SECT .TEXT
-    start: 
+    start:
+
+            PUSH input
+        PUSH _PRINTF
+    SYS
+
     ! input(n)
             PUSH _GETCHAR
         SYS
@@ -22,7 +27,7 @@ _PRINTF = 127
     MOV (n), AX
 
             PUSH (n)
-            PUSH s
+            PUSH output
         PUSH _PRINTF
     SYS
 
@@ -31,7 +36,8 @@ _PRINTF = 127
     SYS
 
 .SECT .DATA
-    s: .ASCII "%d "
+    input: .ASCII "Immetti un numero: \0"
+    output: .ASCII "Fattoriale: %d \0"
 
 .SECT .BSS
     n: .SPACE 2
