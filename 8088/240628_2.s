@@ -67,7 +67,7 @@ _NUMOFFSET = 0x30
                 MOVB AL, (SI)(BX)
                 MOVB DL, (n)
                 MULB DL ! a = v[i]*n
-                MOVB DL, BX
+                MOVB DL, BL
                 ADDB DL, 1 ! d = i+1
                 DIVB DL ! a = a/n
                 MOVB (SI)(BX), AL ! v[i] = v[i]*n/(i+1)
@@ -89,9 +89,10 @@ _NUMOFFSET = 0x30
                 XOR AX, AX
                 PUSH BX ! temp = i
                 MOVB AL, 4(BP) ! a = dim
-                DIVB BL
+                MOVB DL, BL
+                DIVB DL ! a /= i
                 MOVB BL, AL ! b = dim/i
-                MOVB AL, (SI)(BL) ! a = v[b]
+                MOVB AL, (SI)(BX) ! a = v[b]
                 MOVB DL, (n)
                 ADDB DL, 2 ! d = n+2
                 MULB DL ! a *= d
@@ -103,6 +104,7 @@ _NUMOFFSET = 0x30
         INC BX
         LOOP for
 
+        MOV SP, BP
         POP BP
         RET
 
@@ -122,7 +124,7 @@ _NUMOFFSET = 0x30
             MOVB DL, (n)
             DIVB DL ! a /= n
             ! printf("%d \0", al)
-            PUSH AL
+            PUSH AX
             PUSH output
             PUSH _PRINTF
             SYS
@@ -130,6 +132,7 @@ _NUMOFFSET = 0x30
         INC BX
         LOOP for
         
+        MOV SP, BP
         POP BP
         RET
 
