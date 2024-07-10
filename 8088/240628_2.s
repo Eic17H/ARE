@@ -50,7 +50,8 @@ _NUMOFFSET = 0x30
 
             XOR AX, AX
             MOVB AL, (SI)(BX) ! a = v[i]
-            MULB AL ! a = a*a
+            MOVB DL, (SI)(BX) ! d = v[i]
+            MULB DL ! a = a*d
             MOVB DL, AL ! d = v[i]*v[i]
             XOR AX, AX
             MOVB AL, 4(BP) ! al = dim
@@ -86,15 +87,15 @@ _NUMOFFSET = 0x30
 
             caso3:
                 XOR AX, AX
-                XOR DX, DX
+                PUSH BX ! temp = i
                 MOVB AL, 4(BP) ! a = dim
-                MOVB DL, BX ! d = i
-                DIVB AL
-                MOVB DL, AL ! d = dim/i
-                MOVB AL, (SI)(DL) ! a = v[d]
+                DIVB BL
+                MOVB BL, AL ! b = dim/i
+                MOVB AL, (SI)(BL) ! a = v[b]
                 MOVB DL, (n)
                 ADDB DL, 2 ! d = n+2
                 MULB DL ! a *= d
+                POP BX ! i = temp
                 MOVB (SI)(BX), AL ! v[i] = v[dim/i]*(n+2)
             JMP endif
             endif:
