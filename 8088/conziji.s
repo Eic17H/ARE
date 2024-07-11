@@ -3,6 +3,10 @@
     XORB DH, DH
     DIVB DL
 
+! MULB e DIVB
+    DIVB DL             ! al = ax/dl    ! ah = ax%dl
+    DIV  DX             ! ax = ax:dx/dx ! dx = ax:dx%dx
+
 ! ecco i confronti
     ! questi sono quelli che uso
          JE AL, DL ! a==d
@@ -45,7 +49,27 @@
     DIVB DL             ! al = ax/dl    ! ah = ax%dl
     DIV  DX             ! ax = ax:dx/dx ! dx = ax:dx%dx
 
-! indirizzi:
-    SP ! stack top pointer
-    SS ! limite massimo di SP
-    ! ...
+! registri:
+    ! con questi lavoriamo direttamente:
+        AX ! accumulatore, risultato
+        BX ! memorizzare e accedere a un indirizzo
+        CX ! contatore nei loop
+        DX ! dati
+        SP ! stack top pointer
+        SS ! limite massimo di SP
+        BP ! puntatore base, punta anywhere nello stack
+        SI ! indice sorgente, per accedere ai dati sullo stack (con BP) o in memoria (con BX)
+        DI ! come SI, ma è l'indice destinazione (ma si possono usare allo stesso modo)
+    
+    ! questi esistono per conto proprio:
+        IP ! instruction pointer, è il program counter e si usa nel fetch
+        ! queste sono flag da 1 bit scritte da CMP e lette dai Jump:
+        ZF ! zero
+        SF ! negativo
+        OF ! overflow
+        CF ! riporto
+        AF ! riporto ausiliario
+        PF ! pari
+        IF ! interrupt
+        TF ! tracing
+        DF ! operazioni su stringhe
